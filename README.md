@@ -4,13 +4,13 @@ Makes use of Chainlink VRF's to get random numbers cryptographically proofable.
 
 The contract of the Game inherits from `@chainlink/contracts/src/v0.8/VRFConsumerBase`
 
-```
+```solidity
 contract RandomWinnerGame is VRFConsumerBase, ...
 ```
 
 It's constructor receives the addresses of VRFCoordinator contract and the LINK token, besides a keyHash, ID of public key against which randomness is generated, and the amount of LINK to send with the request
 
-```
+```solidity
 constructor(address vrfCoordinator, address linkToken,
 bytes32 vrfKeyHash, uint256 vrfFee)
 VRFConsumerBase(vrfCoordinator, linkToken) {
@@ -22,7 +22,7 @@ VRFConsumerBase(vrfCoordinator, linkToken) {
 
 Whe the game finishes, the function `requestRandomness` is called in order to ask for a random number:
 
-```
+```solidity
 function getRandomWinner() private returns (bytes32 requestId) {
     // LINK is an internal interface for Link token found within the VRFConsumerBase
     // Here we use the balanceOF method from that interface to make sure that our
@@ -37,7 +37,7 @@ function getRandomWinner() private returns (bytes32 requestId) {
 
 When VRFCoordinator receives a valid VRF proof, it calls fulfillRandomness, inherited from VRFConsumerBase:
 
-```
+```solidity
 function fulfillRandomness(bytes32 requestId, uint256 randomness) internal virtual override  {
     // We want out winnerIndex to be in the length from 0 to players.length-1
     // For this we mod it with the player.length value
